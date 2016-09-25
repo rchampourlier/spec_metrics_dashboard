@@ -28,18 +28,18 @@ def run_key_info(run_key):
     """
     Returns (date, branch, sha) for the specified run key
     """
-    extract_re = re.compile("\A.+/(\d{17})-(.+)-(\w+)\.json\Z")
+    extract_re = re.compile("\A.+/(\d{17})-(.+)-(\w+)\Z")
     matches = extract_re.search(run_key)
     return (matches.group(1), matches.group(2), matches.group(3))
 
-def branches(run_keys=None, run_keys_df=None):
-    if type(run_keys_df) == type(None):
+def branch_names(run_keys=None, runs_df=None):
+    if type(runs_df) == type(None):
         if run_keys == None:
-            raise Exception("Must provide run_keys_df or run_keys")
-        run_keys_df = build_run_keys_df(run_keys)
-    return set(run_keys_df.branch)
+            raise Exception("Must provide runs_df or run_keys")
+        runs_df = build_runs_df(run_keys)
+    return set(runs_df.branch)
 
-def build_run_keys_df(run_keys):
+def build_runs_df(run_keys):
     run_dicts = []
     for run_key in run_keys:
         (date, branch, sha) = run_key_info(run_key)
@@ -100,17 +100,6 @@ def flatten_examples(run_data):
 
 def build_run_examples_df(run_data):
     return pd.DataFrame.from_dict(flatten_examples(run_data))
-
-def build_runs_examples_df(run_datas):
-    df = None
-    for run_data in run_datas:
-        run_df = build_run_examples_df(run_data)
-        run_df["run_key"] = run_data["run_key"]
-        if type(df) == type(None):
-            df = run_df
-        else:
-            df = df.append(run_df, ignore_index=True)
-    return df
 
 def all_paths(data):
     return set([example["file_path"] for example in data["examples"]])

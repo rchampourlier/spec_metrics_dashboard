@@ -8,6 +8,7 @@ from tqdm import tqdm
 import codecs
 
 BUCKET = "jt-spec-metrics"
+FILE_EXT = ".json"
 
 def client():
     return boto3.client('s3')
@@ -24,7 +25,8 @@ def objects(a_client, bucket):
     return objs
 
 def fetch_run_keys():
-    return [object["Key"] for object in objects(client(), BUCKET)]
+    keys = [object["Key"] for object in objects(client(), BUCKET)]
+    return [key.replace(FILE_EXT, "") for key in keys]
 
 def fetch_object_data(a_resource, bucket, obj_key):
     obj = a_resource.Object(bucket, obj_key)
@@ -32,7 +34,7 @@ def fetch_object_data(a_resource, bucket, obj_key):
     return json.load(reader(obj.get()["Body"]))
 
 def fetch_run_data(run_key):
-    data = fetch_object_data(resource(), BUCKET, run_key)
+    data = fetch_object_data(resource(), BUCKET, run_key + FILE_EXT)
     data["run_key"] = run_key
     return data
 

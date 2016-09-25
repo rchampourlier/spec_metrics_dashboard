@@ -4,20 +4,22 @@
 </head>
 <body>
   <h1>SpecMetrics Dashboard</h1>
-  <h2>Branches index</h2>
+  <h2>Runs for branch "{{ branch_name }}"</h2>
   <div class="container">
     <table>
       <thead>
         <tr>
-          <th>Branch</th>
+          <th>Date</th>
+          <th>Git SHA</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        {% for branch_name in branch_names %}
+        {% for branch_run in branch_runs %}
           <tr>
-            <td>{{ branch_name }}</td>
-            <td><a href="/branch/{{ branch_name }}/runs">Show runs</a></td>
+            <td>{{ branch_run["date"] }}</td>
+            <td>{{ branch_run["sha"] }}</td>
+            <td><a href="/run/{{ branch_run["run_key"] | urlencode }}/stats">Show stats</a></td>
           </tr>
         {% endfor %}
       </tbody>
