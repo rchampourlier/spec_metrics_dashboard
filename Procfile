@@ -1,1 +1,1 @@
-web: gunicorn app:app --chdir src --log-file -
+web: gunicorn web:app --chdir src --log-file -

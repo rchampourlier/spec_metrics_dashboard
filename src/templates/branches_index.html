@@ -7,11 +7,12 @@
 </head>
 <body>
   <h1>SpecMetrics Dashboard</h1>
-  <h2>Home</h2>
+  <h2>Branches index</h2>
   <div class="container">
-    Welcome!
     <ul>
-      <li><a href="/branches">Branches</a></li>
+      {% for branch in branches %}
+        <li>{{ branch }}</li>
+      {% endfor %}
     </ul>
   </div>
 </body>

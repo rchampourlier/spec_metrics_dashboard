@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#
+# Open a Python console where you can import modules from
+# src and src/lib directories.
+#
+# Usage
+#     bin/console
+
+python3 -i src/console.py

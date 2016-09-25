@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#
+# Start the web app in development mode
+#
+# Usage
+#     bin/dev
+
+python3 src/web.py
