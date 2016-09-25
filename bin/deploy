@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-git push heroku master:master
+branch="$(git symbolic-ref HEAD --short)"
+target="heroku"
+git push "$target" "$branch:master"

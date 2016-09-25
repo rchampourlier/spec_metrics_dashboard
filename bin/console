@@ -6,4 +6,4 @@
 # Usage
 #     bin/console
 
-python3 -i src/console.py
+export $(cat .env | xargs) && python3 -i src/console.py

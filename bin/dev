@@ -5,4 +5,4 @@
 # Usage
 #     bin/dev
 
-python3 src/web.py
+export $(cat .env | xargs) && python3 src/web.py
