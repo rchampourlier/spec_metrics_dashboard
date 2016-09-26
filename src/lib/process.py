@@ -86,6 +86,7 @@ def flatten_example(example):
         "file_name": p_items[-1],
         "line_number": example["line_number"],
         "run_time": example["execution_result"]["run_time"],
+        "finished_at": example["execution_result"]["finished_at"],
         "status": example["execution_result"]["status"],
         "queries_count": example["queries_count"],
         "queries_duration": example["queries_duration"],
