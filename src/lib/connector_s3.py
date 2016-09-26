@@ -37,9 +37,3 @@ def fetch_run_data(run_key):
     data = fetch_object_data(resource(), BUCKET, run_key + FILE_EXT)
     data["run_key"] = run_key
     return data
-
-def fetch_run_datas(run_keys):
-    run_datas = []
-    for run_key in tqdm(run_keys):
-        run_datas.append(fetch_run_data(run_key))
-    return run_datas

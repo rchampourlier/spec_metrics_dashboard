@@ -10,11 +10,9 @@ import codecs
 def fetch_run_keys(connector):
     return connector.fetch_run_keys()
 
-def fetch_run_datas(connector, run_keys=None):
-    if type(run_keys) == type(None):
-        run_keys = fetch_run_keys(connector)
-    run_datas = connector.fetch_run_datas(run_keys)
-    return [add_info_to_run_data(run_data) for run_data in run_datas]
+def fetch_run_data(connector, run_key):
+    run_data = connector.fetch_run_data(run_key)
+    return add_info_to_run_data(run_data)
 
 def add_info_to_run_data(run_data):
     run_key = run_data["run_key"]
