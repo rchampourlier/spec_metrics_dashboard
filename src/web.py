@@ -59,7 +59,7 @@ def run_stats(run_key):
     print(run_key)
     run_key = urllib.parse.unquote_plus(run_key)
     print(run_key)
-    run_data = process.fetch_run_datas(connector_s3, [run_key])[0]
+    run_data = process.fetch_run_data(connector_s3, run_key)
     run_examples_df = process.build_run_examples_df(run_data)
     chart_js = highcharts.pie_drilldown(
         run_examples_df[["path_0", "path_1", "run_time"]] \
