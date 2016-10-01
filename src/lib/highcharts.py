@@ -1,5 +1,5 @@
 # highcharts.py
-# VERSION 0.0.1
+# VERSION 0.0.2
 #
 # How to use
 # ==========
@@ -33,7 +33,7 @@ def base(chart_def = None, height=400):
     ''' % locals()
     return js
 
-def pie(df, serie_name='Serie', title=None, subtitle=None, percentage=True):
+def pie(df, serie_name='Serie', title=None, subtitle=None, percentage=True, unit='%'):
     """
     Display highcharts pie
     """
@@ -63,7 +63,7 @@ def pie(df, serie_name='Serie', title=None, subtitle=None, percentage=True):
             'series': {
                 'dataLabels': {
                     'enabled': True,
-                    'format': '{point.name}: {point.y:.1f}%'
+                    'format': '{point.name}: {point.y:.1f}%(unit)s' % locals()
                 }
             }
         },
@@ -75,7 +75,7 @@ def pie(df, serie_name='Serie', title=None, subtitle=None, percentage=True):
     }
     return base(chart_def=chart_def)
 
-def pie_drilldown(df, serie_name='Serie', title=None, subtitle=None):
+def pie_drilldown(df, serie_name='Serie', title=None, subtitle=None, percentage=True, unit='%'):
     """
     Display highcharts pie drilldown for DataFrame with a 2-level
     multi-index index and a single numeric column.
@@ -99,7 +99,8 @@ def pie_drilldown(df, serie_name='Serie', title=None, subtitle=None):
             continue
 
         serie_percentage = 100 * serie_value / series_total
-        serie_data_item = {'name': serie_index, 'y': serie_percentage, 'drilldown': serie_index}
+        serie_y = serie_percentage if percentage else serie_value
+        serie_data_item = {'name': serie_index, 'y': serie_y, 'drilldown': serie_index}
         serie_drilldown_data = []
         series_data.append(serie_data_item)
 
@@ -111,7 +112,8 @@ def pie_drilldown(df, serie_name='Serie', title=None, subtitle=None):
                 continue
             serie_drilldown_value_scalar = np.asscalar(serie_drilldown_value)
             serie_drilldown_percentage = 100 * serie_drilldown_value / series_total
-            serie_drilldown_data.append([serie_drilldown_index, serie_drilldown_percentage])
+            serie_drilldown_y = serie_drilldown_percentage if percentage else serie_drilldown_value
+            serie_drilldown_data.append([serie_drilldown_index, serie_drilldown_y])
         serie_drilldown_serie = {'name': serie_index, 'id': serie_index, 'data': serie_drilldown_data}
         drilldown_series.append(serie_drilldown_serie)
 
@@ -125,13 +127,13 @@ def pie_drilldown(df, serie_name='Serie', title=None, subtitle=None):
             'series': {
                 'dataLabels': {
                     'enabled': True,
-                    'format': '{point.name}: {point.y:.1f}%'
+                    'format': '{point.name}: {point.y:.1f}%(unit)s' % locals()
                 }
             }
         },
         'tooltip': {
             'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-            'pointFormat': '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            'pointFormat': '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%(unit)s</b> of total<br/>' % locals()
         },
         'series': series,
         'drilldown': drilldown
