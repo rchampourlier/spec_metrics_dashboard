@@ -1,5 +1,11 @@
 # History
 
+## 2016-10-01
+
+Web UI update:
+- the run stats chart now displays run time in seconds, not in percentage,
+- a table with details of the run is displayed below the chart.
+
 ## 2016-09-26
 
  Working on identifying failed examples uniquely over the last N runs for a given branch. I am doing this in the "SpecMetrics-ProcessingFromAWS" notebook for now.
