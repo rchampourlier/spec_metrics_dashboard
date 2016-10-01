@@ -66,7 +66,9 @@ def run_stats(run_key):
             .groupby(['path_0', 'path_1']) \
             .sum()[['run_time']],
         serie_name='Run time',
-        title="Run time"
+        title="Run time",
+        percentage=False,
+        unit="s"
     )
     run_examples_df_html = run_examples_df.groupby(["path_0", "path_1", "path_2", "path_3", "path_4"]).sum().to_html()
     return render_template(
