@@ -68,10 +68,12 @@ def run_stats(run_key):
         serie_name='Run time',
         title="Run time"
     )
+    run_examples_df_html = run_examples_df.groupby(["path_0", "path_1", "path_2", "path_3", "path_4"]).sum().to_html()
     return render_template(
         "run_stats.html",
         run_key=run_key,
         chart_js=chart_js,
+        run_examples_df_html=run_examples_df_html
     )
 
 if __name__ == "__main__":

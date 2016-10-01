@@ -79,10 +79,12 @@ def flatten_example(example):
     p_items = example["file_path"].split("/")[2:] # just remove "." and "spec"
     return {
         "description": example["description"],
-        "dir_0": p_items[0],
-        "dir_1": p_items[1] if len(p_items) > 2 else None,
-        "dir_2": p_items[2] if len(p_items) > 3 else None,
-        "dir_3": p_items[3] if len(p_items) > 4 else None,
+        "path_0": p_items[0] if len(p_items) > 0 else "N/D",
+        "path_1": p_items[1] if len(p_items) > 1 else "N/D",
+        "path_2": p_items[2] if len(p_items) > 2 else "N/D",
+        "path_3": p_items[3] if len(p_items) > 3 else "N/D",
+        "path_4": p_items[4] if len(p_items) > 4 else "N/D",
+        "path_5": p_items[5] if len(p_items) > 5 else "N/D",
         "file_name": p_items[-1],
         "line_number": example["line_number"],
         "run_time": example["execution_result"]["run_time"],
