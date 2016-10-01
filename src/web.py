@@ -61,9 +61,9 @@ def run_stats(run_key):
     print(run_key)
     run_data = process.fetch_run_datas(connector_s3, [run_key])[0]
     run_examples_df = process.build_run_examples_df(run_data)
-    chart_html = highcharts.pie_drilldown(
-        run_examples_df[["dir_0", "dir_1", "run_time"]] \
-            .groupby(['dir_0', 'dir_1']) \
+    chart_js = highcharts.pie_drilldown(
+        run_examples_df[["path_0", "path_1", "run_time"]] \
+            .groupby(['path_0', 'path_1']) \
             .sum()[['run_time']],
         serie_name='Run time',
         title="Run time"
@@ -71,7 +71,7 @@ def run_stats(run_key):
     return render_template(
         "run_stats.html",
         run_key=run_key,
-        chart_html=chart_html
+        chart_js=chart_js,
     )
 
 if __name__ == "__main__":

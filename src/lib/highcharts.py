@@ -22,21 +22,16 @@ import pandas as pd
 
 def base(chart_def = None, height=400):
     assert chart_def
-    unique_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(15))
-    chart_def["renderTo"] = "#chart"
     chart_def_json = json.dumps(chart_def)
 
-    html = '''
-    <script>
-        var container = document.createElement('div');
-        document.body.appendChild(container);
+    js = '''
+        var container = document.getElementById('chart');
         chart_def = %(chart_def_json)s;
         chart_def.chart.renderTo = container;
         chart_def.chart.height = 400;
         Highcharts.chart(chart_def);
-    </script>
     ''' % locals()
-    return html
+    return js
 
 def pie(df, serie_name='Serie', title=None, subtitle=None, percentage=True):
     """
