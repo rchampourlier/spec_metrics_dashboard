@@ -49,7 +49,8 @@ def branches_index():
 def branch_runs_index(branch_name):
     run_keys = process.fetch_run_keys(connector_s3)
     runs_df = process.build_runs_df(run_keys)
-    branch_runs_df = runs_df[runs_df.branch == branch_name]
+    runs_df.index = runs_df.date
+    branch_runs_df = runs_df[runs_df.branch == branch_name].sort_values("date", ascending=False)
     return render_template("branch_runs_index.html",
         branch_name=branch_name,
         branch_runs=branch_runs_df.to_dict(orient="rows"))
