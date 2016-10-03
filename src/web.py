@@ -55,15 +55,18 @@ def branch_runs_index(branch_name):
         branch_name=branch_name,
         branch_runs=branch_runs_df.to_dict(orient="rows"))
 
-@app.route("/run/<path:run_key>/stats")
-def run_stats(run_key):
-    print(run_key)
-    run_key = urllib.parse.unquote_plus(run_key)
-    print(run_key)
+def unquote_param(param):
+    return urllib.parse.unquote_plus(param)
+
+def run_examples_df(run_key):
     run_data = process.fetch_run_data(connector_s3, run_key)
-    run_examples_df = process.build_run_examples_df(run_data)
+    return process.build_run_examples_df(run_data)
+
+@app.route("/run/<path:run_key>/overview")
+def run_overview(run_key):
+    df = run_examples_df(unquote_param(run_key))
     chart_js = highcharts.pie_drilldown(
-        run_examples_df[["path_0", "path_1", "run_time"]] \
+        df[["path_0", "path_1", "run_time"]] \
             .groupby(['path_0', 'path_1']) \
             .sum()[['run_time']],
         serie_name='Run time',
@@ -71,12 +74,22 @@ def run_stats(run_key):
         percentage=False,
         unit="s"
     )
-    run_examples_df_html = run_examples_df.groupby(["path_0", "path_1", "path_2", "path_3", "path_4"]).sum().to_html()
+    df_html = df.groupby(["path_0", "path_1", "path_2", "path_3", "path_4"]).sum().to_html()
     return render_template(
-        "run_stats.html",
+        "run_overview.html",
         run_key=run_key,
         chart_js=chart_js,
-        run_examples_df_html=run_examples_df_html
+        run_examples_df_html=df_html
+    )
+
+@app.route("/run/<path:run_key>/examples_by_runtime")
+def run_stats_examples_by_runtime(run_key):
+    df = run_examples_df(unquote_param(run_key))
+    df_html = df.sort_values("run_time", ascending=False).to_html()
+    return render_template(
+        "run_examples_by_runtime.html",
+        run_key=run_key,
+        run_examples_df_html=df_html
     )
 
 if __name__ == "__main__":

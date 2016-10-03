@@ -11,7 +11,7 @@
         <tr>
           <th>Date</th>
           <th>Git SHA</th>
-          <th>Actions</th>
+          <th colspan=2>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -19,7 +19,8 @@
           <tr>
             <td>{{ branch_run["date"] }}</td>
             <td>{{ branch_run["sha"] }}</td>
-            <td><a href="/run/{{ branch_run["run_key"] | urlencode }}/stats">Show stats</a></td>
+            <td><a href="/run/{{ branch_run["run_key"] | urlencode }}/overview">Overview</a></td>
+            <td><a href="/run/{{ branch_run["run_key"] | urlencode }}/examples_by_runtime">Examples by runtime</a></td>
           </tr>
         {% endfor %}
       </tbody>

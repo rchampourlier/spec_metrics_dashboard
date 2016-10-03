@@ -1,0 +1,19 @@
+<!doctype html>
+<head>
+  <title>SpecMetrics Dashboard</title>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+</head>
+<body>
+  <h1>SpecMetrics Dashboard</h1>
+  <h2>Overview for run "{{ run_key }}"</h2>
+  <div class="container">
+    <div id="chart">
+    </div>
+    <div class="table">
+      {{ run_examples_df_html | safe }}
+    </div>
+  </div>
+  <script>{{ chart_js | safe }}</script>
+</body>
